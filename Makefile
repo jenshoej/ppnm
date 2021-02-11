@@ -12,4 +12,4 @@ hello: hello.o
 	$(CC) $(CFLAGS) hello.o -o hello $(LDLIBS)
 
 clean: 
-	-rm *.o
+	-rm *o hello
