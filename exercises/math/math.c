@@ -7,7 +7,7 @@ int main() {
 	double e = M_E;
 
 	//Squareroot of negative 2
-	double complex z = I * sqrt(2);
+	double complex z = csqrt(-2);
 	printf("Real part of sqrt(-2): %f\n",creal(z));
 	printf("imaginary part of sqrt(-2): %f\n", cimag(z));
 
