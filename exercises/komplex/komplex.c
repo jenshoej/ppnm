@@ -6,8 +6,8 @@ void komplex_print(char *s, komplex a) {
 }
 
 void komplex_set(komplex *z, double x, double y) {
-	(*z).re = x
-	(*z).im = y
+	(*z).re = x;
+	(*z).im = y;
 }
 
 komplex komplex_new(double x, double y) {

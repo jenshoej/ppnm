@@ -9,13 +9,13 @@ int main() {
 	komplex add = komplex_add(a,b);
 	komplex_print("a =",a);
 	komplex_print("b =",b);
-	komplex_print("a + b",add);
+	komplex_print("a + b =",add);
 
 	printf("Testing komplex_sub method\n");
 	komplex sub = komplex_sub(b,a);
 	komplex_print("a =",a);
 	komplex_print("b =",b);
-	komplex_print("b - a", sub);
+	komplex_print("b - a =", sub);
 
 	printf("Testing komplex_new og _set method\n");
 	komplex new = komplex_new(5,6);

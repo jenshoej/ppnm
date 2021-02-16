@@ -1,0 +1,11 @@
+Testing komplex_add method
+a = (1, 2)
+b = (3, 4)
+a + b = (4, 6)
+Testing komplex_sub method
+a = (1, 2)
+b = (3, 4)
+b - a = (2, 2)
+Testing komplex_new og _set method
+New komplex (5,6) = (5, 6)
+Set komplex to 7,8 (7, 8)
