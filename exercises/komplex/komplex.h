@@ -1,7 +1,6 @@
-#ifndef HAVE_KOMPLEX_H
 #define HAVE_KOMPLEX_H
 
-struct komplex {double re,im;};
+struct komplex {double re; double im;};
 typedef struct komplex komplex;
 
 void komplex_print(char* s, komplex z);

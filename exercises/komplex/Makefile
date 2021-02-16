@@ -1,12 +1,8 @@
-out.txt: komplex
-	./ komplex > out.txt
-
-komplex.o: komplex.c
-	gcc -c komplex.c -o komplex.o
-
-komplex: komplex.o
-	gcc math.o -o math -lm
-
-clean:
-	-rm *.o
-
+CFLAGS = -Wall -std=gnu99
+LDLIBS = -lm
+.PHONEY: all clean
+all              : out.txt           ; cat $<
+out.txt          : main              ; ./$< > $@
+main             : main.o komplex.o  # built-in linking rule is used here
+main.o komplex.o : komplex.h         # built-in compiling rule is used here
+clean            :                   ; $(RM) main main.o komplex.o out.txt

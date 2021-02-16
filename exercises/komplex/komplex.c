@@ -5,7 +5,7 @@ void komplex_print(char *s, komplex a) {
 	printf("%s (%g, %g)\n", s, a.re, a.im);
 }
 
-void komplex_set(komplex* z, double x, double y) {
+void komplex_set(komplex *z, double x, double y) {
 	(*z).re = x
 	(*z).im = y
 }
