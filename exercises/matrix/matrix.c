@@ -29,20 +29,23 @@ int main() {
 	};
 	double b_data[] = {6.23, 5.37, 2.29};
 
-	/* Initialize matrix */
+	/* Initialize matrices and vectors */
 	int n=3;
 	gsl_matrix* A=gsl_matrix_alloc(n,n);
 	gsl_matrix* A_copy=gsl_matrix_alloc(n,n);
 	gsl_vector* b=gsl_vector_alloc(n);
 	gsl_vector* x=gsl_vector_alloc(n);
 	gsl_vector* y=gsl_vector_calloc(n);
-	/* (i,j)'th matrix element is the (i*n + j)'th element in array*/
+
+	/* fill A matrix with indexing
+	 * (i,j)'th matrix element is the (i*n + j)'th element in array*/
 	for(int i = 0; i< A->size1; i++) {
 		for(int j=0; j<A->size2; j++) {
 			gsl_matrix_set(A,i,j,a_data[i*n + j]);
 		}
 	}
 	gsl_matrix_memcpy(A_copy,A); //make a copy of A, since it's destroyed later
+	/* fill b vector with indexing */
 	for(int i = 0; i < b->size; i++) {
 		gsl_vector_set(b,i,b_data[i]);
 	}
@@ -64,5 +67,12 @@ int main() {
 	gsl_blas_dgemv(CblasNoTrans,1,A_copy,x,0,y);
 	printf("Checking the solution is correct\n");
 	printvector(y);
+
+	/* free memory */
+gsl_matrix_free(A);
+gsl_matrix_free(A_copy);
+gsl_vector_free(b);
+gsl_vector_free(x);
+gsl_vector_free(y);
 return 0;	
 }
