@@ -21,7 +21,7 @@ double integral(int a, int b) {
 	double epsabs = 1e-6;
 	double epsrel = 1e-6;
 
-	/* sove integral using qags routine */
+	/* solve integral using qags routine */
 	gsl_integration_qags(&F,a,b,epsabs,epsrel,limit,w,&result,&abserr); //do the intergration
 	gsl_integration_workspace_free(w); // free the memory of the workspace
 	return result;
