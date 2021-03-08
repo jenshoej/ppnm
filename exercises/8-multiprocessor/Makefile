@@ -14,6 +14,7 @@ plot.pdf: inside_points.txt outside_points.txt
 	' | gnuplot
 
 inside_points.txt outside_points.txt: main
+	./main
 
 clean:
 	$(RM) *.o *.txt main *.pdf
