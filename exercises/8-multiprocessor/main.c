@@ -4,21 +4,37 @@
 #include <pthread.h>
 
 void* calculate_pi(void* arg) {
-	double* pi = (double*)arg;
 
-	/* generate random numbers for x and y between 0 and 1 */
-	int N = 1e8; // Number of iterations
+	/* initialize variables */
+	int N = 1e3; // Number of iterations
+	double* pi = (double*)arg;
 	double N_in = 0; // Number of points inside circle
 	unsigned int seed;
+
+	/* create files for storing datapoints for plotting */
+	FILE* inside_points = fopen("inside_points.txt", "w");
+	FILE* outside_points = fopen("outside_points.txt", "w");
+
+	/* generate random numbers */
 	for(int i = 0; i < N; i++) {
 		double x = (double)rand_r(&seed)/RAND_MAX;		
 		double y = (double)rand_r(&seed)/RAND_MAX;
 
-		/* count if the length of distance from x to y is larger than 1 */
-		if( sqrt(pow(x,2) + pow(y,2)) < 1) {
+		/* count if the length of distance from origin to (x,y) is larger than 1 */
+		if(sqrt(x*x + y*y) < 1) {
 			N_in++;
+			if(x < 1) {
+				fprintf(inside_points,"%g %g\n", x, y); // Add point to file with points inside of circle
+			}
 		}	
-	}
+		else if(x < 1) {
+			fprintf(outside_points,"%g %g\n", x, y); //Add point to file with points outside of circle
+		}
+	
+	}	
+	fclose(inside_points);
+	fclose(outside_points);
+	
 	/* calculate the ratio of pi */
 	*pi = 4*N_in/N; 
 	return NULL;
