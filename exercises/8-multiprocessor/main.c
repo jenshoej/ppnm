@@ -7,8 +7,8 @@ void* calculate_pi(void* arg) {
 	double* pi = (double*)arg;
 
 	/* generate random numbers for x and y between 0 and 1 */
-	int N = 1e8;
-	double N_in = 0; //number of points inside circle
+	int N = 1e8; // Number of iterations
+	double N_in = 0; // Number of points inside circle
 	unsigned int seed;
 	for(int i = 0; i < N; i++) {
 		double x = (double)rand_r(&seed)/RAND_MAX;		
@@ -20,7 +20,7 @@ void* calculate_pi(void* arg) {
 		}	
 	}
 	/* calculate the ratio of pi */
-	*pi = 4*N_in/N;
+	*pi = 4*N_in/N; 
 	return NULL;
 }
 
