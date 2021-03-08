@@ -1,27 +1,47 @@
 #include <stdio.h>
-#include <pthread.h>
 #include <math.h>
+#include <stdlib.h>
+#include <pthread.h>
 
-void* bar(void* arg){
-	double* x = (double*)arg;
-	for(int i=0;i<1e8;i++) *x=cos(*x);
-return NULL;
+void* calculate_pi(void* arg) {
+	double* pi = (double*)arg;
+
+	/* generate random numbers for x and y between 0 and 1 */
+	int N = 1e8;
+	double N_in = 0; //number of points inside circle
+	unsigned int seed;
+	for(int i = 0; i < N; i++) {
+		double x = (double)rand_r(&seed)/RAND_MAX;		
+		double y = (double)rand_r(&seed)/RAND_MAX;
+
+		/* count if the length of distance from x to y is larger than 1 */
+		if( sqrt(pow(x,2) + pow(y,2)) < 1) {
+			N_in++;
+		}	
+	}
+	/* calculate the ratio of pi */
+	*pi = 4*N_in/N;
+	return NULL;
 }
 
-int main(){
-	double x=0,y=100,z=-100;
-	pthread_t threadx, thready;
-	pthread_attr_t* attributes = NULL;
-	pthread_create(&threadx, attributes, bar, (void*)&x);
-	pthread_create(&thready, attributes, bar, (void*)&y);
-	bar((void*)&z);
-	void* returnvalue = NULL;
-	pthread_join(threadx,returnvalue);
-	pthread_join(thready,returnvalue);
-	printf("x=%g cos(x)=%g\n",x,cos(x));
-	printf("y=%g cos(y)=%g\n",y,cos(y));
-	printf("z=%g cos(z)=%g\n",z,cos(z));
+int main() {
+	double pi_1, pi_2, pi_3;
+
+	/* create threads and run calculate pi method in 3 separate threads. One runs on main thread. */
+	pthread_t thread_1, thread_2;
+	pthread_create(&thread_1, NULL, calculate_pi, (void*)&pi_1);
+	pthread_create(&thread_2, NULL, calculate_pi, (void*)&pi_2);
+	calculate_pi((void*)&pi_3);
+
+	/* join threads */
+	pthread_join(thread_1, NULL);
+	pthread_join(thread_2, NULL);
+
+	/* calculate pi value average of the three threads and prints it */
+	double avg = (pi_1 + pi_2 + pi_3)/3;
+	printf("Value of pi = %g\n", avg);
+
+
 return 0;
 }
-
 
