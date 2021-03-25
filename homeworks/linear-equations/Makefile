@@ -3,7 +3,6 @@ CFLAGS += $(shell gsl-config --cflags)
 LDLIBS = -lm
 LDLIBS += $(shell gsl-config --libs)
 
-all: out.txt
 
 out.txt: main
 	./$< > $@
