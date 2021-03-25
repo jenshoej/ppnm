@@ -11,6 +11,7 @@ void print_vector(gsl_vector* v) {
 		printf("%10.4f", gsl_vector_get(v,i));
 		printf("\n");
 	}
+	printf("\n");
 }
 void print_matrix(gsl_matrix* m) {
 	for(int i = 0; i < m->size1; i++){
