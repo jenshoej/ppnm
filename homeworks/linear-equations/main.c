@@ -6,11 +6,12 @@
 #include<math.h>
 #include"matrix.h"
 
-int part_1() {
+void part_1() {
 
 	// Check that GS_decomp works
 	printf("Checking that GS_decomp works\n");
-	
+	printf("\n");
+
 	// Allocate memory for matrices
 	int n = 7;
 	int m = 5;
@@ -54,13 +55,13 @@ int part_1() {
 	gsl_matrix_free(QR);
 	gsl_matrix_free(A_copy);
 
-	return 0;
 }
 
 void part_2() {
 
 	// Check that GS_solve works
 	printf("Checking that GS_solve works\n");
+	printf("\n");
 
 	int n = 6;
 	int m = 6;
@@ -71,15 +72,33 @@ void part_2() {
 	gsl_matrix *QR = gsl_matrix_alloc(n,n);
 	gsl_vector *b = gsl_vector_alloc(n);
 	gsl_vector *x = gsl_vector_alloc(n);
+	gsl_vector *y = gsl_vector_alloc(n);
 
 	generate_matrix(A);
-	generate_vector(b);
 
-	GS_decomp(A, R);
-	GS_solve(
+	generate_vector(b);
+	printf("Vector b is:\n");
+	print_vector(b);
+	gsl_matrix_memcpy(Q, A);
+
+	GS_decomp(Q, R);
+	GS_solve(Q, R, b, x);
+	
+	gsl_blas_dgemv(CblasNoTrans, 1, A, x, 0, y);
+
+	printf("Product A*x is:\n");
+	print_vector(y);
+
+	gsl_matrix_free(A);
+    	gsl_matrix_free(R);
+    	gsl_matrix_free(Q);
+    	gsl_vector_free(b);
+    	gsl_vector_free(x);
+    	gsl_vector_free(y);
 }
 
 int main() {
+
 
 	part_1();
 	part_2();	
