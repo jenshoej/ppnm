@@ -4,6 +4,7 @@
 #include <gsl/gsl_vector.h>
 #include <math.h>
 #include <gsl/gsl_blas.h>
+#include <assert.h>
 
 void print_vector(gsl_vector* v) {
 	for(int i = 0; i < v->size; i++) {
@@ -30,7 +31,7 @@ void generate_vector(gsl_vector* v) {
 void generate_matrix(gsl_matrix* A) {
 	for(int i = 0; i< A->size1; i++) {
 		for(int j=0; j<A->size2; j++) {
-			gsl_matrix_set(A,i,j,1.0*rand()/RAND_MAX);
+			gsl_matrix_set(A,i,j, 1.0*rand()/RAND_MAX);
 		}
 	}
 }
@@ -41,8 +42,8 @@ double in_prod(gsl_vector* a, gsl_vector* b) {
 	return res;
 }
 
-double norm(gsl_vector* a, gsl_vector* b) {
-	return sqrt(in_prod(a,b));
+double norm(gsl_vector* a) {
+	return sqrt(in_prod(a,a));
 }
 
 void backsub(gsl_matrix* U, gsl_vector* c) { 
@@ -61,19 +62,19 @@ void backsub(gsl_matrix* U, gsl_vector* c) {
 void GS_decomp(gsl_matrix* A, gsl_matrix* R) {
 	int n = A->size1;
 	int m = A->size2;
+	 assert(R->size1==R->size2 && R->size1 == m);
+	 assert(n>=m);
 	// Gram-Schmidt orthogonalization A = QR, where R is a rectangular matrix, and Q is an orthogonal matrix.
 	// A comlumns a_i are replaced by Q columns q_i
 	for(int i = 1; i < m; i++) {
-		gsl_vector_view ai = gsl_matrix_column(A, i);
-		gsl_vector* a_i = &ai.vector; // Pointer to vector a_i
-		double R_ii = norm(a_i, a_i); //R_ii = sqrt(a_i*a_i)
-		gsl_vector_scale(a_i,1/R_ii); //q_i = a_i/R_ii
+		gsl_vector_view a_i = gsl_matrix_column(A, i);
+		double R_ii = norm(&a_i.vector); //R_ii = sqrt(a_i*a_i)
+		gsl_vector_scale(&a_i.vector,1/R_ii); //q_i = a_i/R_ii
 		gsl_matrix_set(R, i, i, R_ii); // Set value of matrix R
 		for(int j = i+1; j < m; j++) {
-			gsl_vector_view aj = gsl_matrix_column(A, j);
-			gsl_vector* a_j = &aj.vector; // Pointer to vector a_j
-			double R_ij = in_prod(a_i, a_j); // R_ij = q_i*a_j
-			gsl_blas_daxpy(-R_ij, a_i, a_j); // a_j = a_j - q_i*R_ij
+			gsl_vector_view a_j = gsl_matrix_column(A, j);
+			double R_ij = in_prod(&a_i.vector, &a_j.vector); // R_ij = q_i*a_j
+			gsl_blas_daxpy(-R_ij, &a_i.vector, &a_j.vector); // a_j = a_j - q_i*R_ij
 			gsl_matrix_set(R, i, j, R_ij); // Set value of matrix R
 		}
 	}
