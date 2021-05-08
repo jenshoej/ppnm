@@ -70,6 +70,8 @@ void part_2() {
 	gsl_matrix *Q = gsl_matrix_alloc(n,n);
 	gsl_matrix *R = gsl_matrix_alloc(n,n);
 	gsl_matrix *QR = gsl_matrix_alloc(n,n);
+	gsl_matrix *B = gsl_matrix_alloc(n,n);
+	gsl_matrix *AB = gsl_matrix_alloc(n,n);
 	gsl_vector *b = gsl_vector_alloc(n);
 	gsl_vector *x = gsl_vector_alloc(n);
 	gsl_vector *y = gsl_vector_alloc(n);
@@ -89,12 +91,23 @@ void part_2() {
 	printf("Product A*x is:\n");
 	print_vector(y);
 
+	inverse(Q, R, B);
+	printf("Checking that inverse works\n");
+	printf("\n");
+	printf("Inverse of A is\n");
+	print_matrix(B);
+	gsl_blas_dgemm(CblasNoTrans, CblasNoTrans, 1, A, B, 0, AB);
+	printf("A*B is (should be identity\n");
+	print_matrix(AB);
+
 	gsl_matrix_free(A);
-    	gsl_matrix_free(R);
-    	gsl_matrix_free(Q);
-    	gsl_vector_free(b);
-    	gsl_vector_free(x);
-    	gsl_vector_free(y);
+	gsl_matrix_free(B);
+	gsl_matrix_free(AB);
+    gsl_matrix_free(R);
+    gsl_matrix_free(Q);
+    gsl_vector_free(b);
+    gsl_vector_free(x);
+    gsl_vector_free(y);
 }
 
 int main() {

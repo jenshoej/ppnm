@@ -80,3 +80,17 @@ void GS_solve(gsl_matrix *Q, gsl_matrix *R, gsl_vector *b, gsl_vector *x) {
 	gsl_blas_dgemv(CblasTrans,1,Q,b,0,x); // Calculates Q^T*b
 	backsub(R, x);
 }
+
+void inverse(gsl_matrix* Q, gsl_matrix* R, gsl_matrix* B) {
+	int n = Q->size1;
+	gsl_vector* e = gsl_vector_alloc(n);
+	gsl_vector* x = gsl_vector_alloc(n);
+	for(int i = 0; i < n; i++) {
+		gsl_vector_set(e, i, 1.0);
+		GS_solve(Q, R, e, x);
+		gsl_vector_set(e, i, 0);
+		gsl_matrix_set_col(B, i, x);
+	}
+	gsl_vector_free(e);
+	gsl_vector_free(x);
+}
