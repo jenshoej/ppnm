@@ -59,9 +59,6 @@ int main() {
     gsl_blas_dgemm(CblasNoTrans, CblasTrans, 1, test, V, 0, VDVt);
     print_matrix(VDVt);
 
-    return 0;
-
-
     gsl_matrix_free(A);
     gsl_matrix_free(A_copy);
     gsl_matrix_free(V);
@@ -69,6 +66,11 @@ int main() {
     gsl_matrix_free(test);
     gsl_matrix_free(VtAV);
     gsl_matrix_free(VDVt);
+    
+    return 0;
+
+
+  
 
 }
 
