@@ -79,5 +79,7 @@ void least_squares(double (*f)(double), gsl_vector *x, gsl_vector *y, gsl_vector
 
     // Solve for c in Rc = Q^Tb
     GS_solve(A, R, b, par);
+
+	
 }
 

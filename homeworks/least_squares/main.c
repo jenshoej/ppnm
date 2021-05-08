@@ -13,7 +13,7 @@ double f1(double x){
     return x;
 }
 
-void least_squares(double (**f)(double), gsl_vector *x, gsl_vector *y, gsl_vector *y_err, gsl_vector *par, gsl_matrix *cov);
+void least_squares(double (*f)(double), gsl_vector *x, gsl_vector *y, gsl_vector *y_err, gsl_vector *par, gsl_matrix *cov);
 
 int main() {
 
