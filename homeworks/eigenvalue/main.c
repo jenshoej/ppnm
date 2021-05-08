@@ -60,6 +60,16 @@ int main() {
     print_matrix(VDVt);
 
     return 0;
+
+
+    gsl_matrix_free(A);
+    gsl_matrix_free(A_copy);
+    gsl_matrix_free(V);
+    gsl_matrix_free(VtV);
+    gsl_matrix_free(test);
+    gsl_matrix_free(VtAV);
+    gsl_matrix_free(VDVt);
+
 }
 
 
