@@ -52,10 +52,10 @@ int driver(
     FILE *points = fopen(file, "w");
 
     t = a; // Start of integration
-    fprintf(points, "%10f", t);
+    fprintf(points, "%10.3f ", t);
     for (int i = 0; i < n; ++i) {
         y[i] = y_init[i]; // Initial values
-        fprintf(points, "%10f", y[i]); // Write y values to outfile
+        fprintf(points, "%10.3f ", y[i]); // Write y values to outfile
     }
     fprintf(points, "\n");
 
@@ -87,10 +87,10 @@ int driver(
         if(e < tau) {
             steps++; // Increase number of steps
             t = t + h; // Move t forward 
-            fprintf(points, "%10f", t);
+            fprintf(points, "%10.3f ", t);
             for(int i = 0; i < n; ++i) { // Update y values
                 y[i] = yh[i];
-                fprintf(points, "%10f", y[i]);
+                fprintf(points, "%10.3f ", y[i]);
             }
             fprintf(points, "\n");
         }

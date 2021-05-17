@@ -1,1 +1,2 @@
-Number of steps 60
+Number of steps of u'' = -u 60
+Number of steps of SIR model 88
