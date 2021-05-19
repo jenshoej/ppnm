@@ -1,0 +1,2 @@
+Value of the integral of sqrt(x)dx from 0 to 1 is (should be 2/3)      0.667
+Value of the integral of 4*sqrt(1-x^2)dx from 0 to 1 is (should be pi)      3.142
