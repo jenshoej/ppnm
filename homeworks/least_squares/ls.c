@@ -48,29 +48,41 @@ void GS_solve(gsl_matrix *Q, gsl_matrix *R, gsl_vector *b, gsl_vector *x) {
 	backsub(R, x);
 }
 
+void inverse(gsl_matrix* Q, gsl_matrix* R, gsl_matrix* B) {
+	int n = Q->size1;
+	gsl_vector* e = gsl_vector_alloc(n);
+	gsl_vector* x = gsl_vector_alloc(n);
+	for(int i = 0; i < n; i++) {
+		gsl_vector_set(e, i, 1.0);
+		GS_solve(Q, R, e, x);
+		gsl_vector_set(e, i, 0);
+		gsl_matrix_set_col(B, i, x);
+	}
+}
+
 
 // f is the function passed as an argument
 // x is the x data, y is the y data, y_err is the error in y
 // par, cov is the optimal parameters and the covariance matrix
-void least_squares(double (*f)(double), gsl_vector *x, gsl_vector *y, gsl_vector *y_err, gsl_vector *par, gsl_matrix cov) {
+// par_err is the errors in the parameters
+void least_squares(int m, double (*F)(int, double), gsl_vector *x, gsl_vector *y, gsl_vector *y_err, gsl_vector *par, gsl_vector *par_err, gsl_matrix *cov) {
     
     // Allocate memory
     int n = x->size;
-    int m = A->size2;
-    gsl_matrix *A = gsl_matrix_alloc(n, m);
-    gsl_matrix *R = gsl_matrix_alloc(m,m);
-    gsl_vector *b = gsl_matrix_alloc(n);
-
+    gsl_matrix* A = gsl_matrix_alloc(n, m);
+    gsl_matrix *R = gsl_matrix_alloc(m, m);
+    gsl_vector *b = gsl_vector_alloc(n);
+	gsl_matrix *R_inv = gsl_matrix_alloc(m, m);
 
     // Vector b = yi/dyi    
     // Matrix A = f_k(x_i)/dy_i
-    for(int i = 0; i<n; i++) {
+    for(int i = 0; i < n; i++) {
         double xi = gsl_vector_get(x, i);
         double yi = gsl_vector_get(y, i);
         double y_erri = gsl_vector_get(y_err, i);
-        gsl_vector_set(b, yi/y_erri);
-        for(int k = 0; k<m; k++) {
-            gsl_matrix_set(A, i, k, f[k](xi)/y_erri);
+        gsl_vector_set(b, i, yi/y_erri);
+        for(int k = 0; k < m; k++) {
+            gsl_matrix_set(A, i, k, F(k, xi)/y_erri);
         }
     }
 
@@ -80,6 +92,18 @@ void least_squares(double (*f)(double), gsl_vector *x, gsl_vector *y, gsl_vector
     // Solve for c in Rc = Q^Tb
     GS_solve(A, R, b, par);
 
-	
+	// Calculate the covariance matrix as R^-1 * (R^-1)^T
+	gsl_matrix_set_identity(cov);
+	inverse(cov, R, R_inv);
+	gsl_blas_dgemm(CblasNoTrans, CblasTrans, 1, R_inv, R_inv, 0, cov);
+
+	// Errors in the optimal parameters are then the square root of the diagonal elements in the covariance matrix 
+ 	double covkk;
+    for(int k = 0; k < m; k++) {
+    	covkk = gsl_matrix_get(cov, k, k);
+		gsl_vector_set(par_err, k, sqrt(covkk));
+    }
+
+
 }
 

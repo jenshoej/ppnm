@@ -81,6 +81,7 @@ void GS_solve(gsl_matrix *Q, gsl_matrix *R, gsl_vector *b, gsl_vector *x) {
 	backsub(R, x);
 }
 
+// Takes Q and R matrix, and inverts it, and stores it in B matrix.
 void inverse(gsl_matrix* Q, gsl_matrix* R, gsl_matrix* B) {
 	int n = Q->size1;
 	gsl_vector* e = gsl_vector_alloc(n);
