@@ -1,0 +1,6 @@
+Result of sinx/x integrated from {0} to {2pi}: 1.4164010449 
+Error of the sampling: 0.0027135348
+
+
+Result of weird ass integral from {0,0,0} to {pi,pi,pi}: 1.3768394051 
+Error of the sampling: 0.0065219361
