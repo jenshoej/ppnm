@@ -1,4 +1,22 @@
+PART A
+
+Adaptive 24 integration routine
+
 Value of the integral of sqrt(x)dx from 0 to 1 is (should be 2/3) 0.6669539091
 Number of calls:         16
-Value of the integral of 4*sqrt(1-x^2)dx from 0 to 1 is (should be pi = 3.14159265359) 3.1418345780
-Number of calls:         28
+
+Value of the integral of 4*sqrt(1-x^2)dx from 0 to 1 is (should be pi = 3.14159265359) 3.141592836391323
+Number of calls:        228
+
+PART B
+
+Curtis Clenshaw 24 integration routine
+
+Value of the integral of 1/sqrt(x) from 0 to 1 is (should be 2) 1.9999920105
+Number of calls:         16
+
+Value of the integral of ln(x)/sqrt(x) from 0 to 1 is (should be -4) -3.9998738565
+Number of calls:         96
+
+Value of the integral of 4*sqrt(1-x^2)dx from 0 to 1 is (should be pi = 3.14159265359) 3.141592623079912
+Number of calls:        304
