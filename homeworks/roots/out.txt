@@ -1,0 +1,15 @@
+------------ Task A ------------
+Initial guess:
+   -2.0000
+    8.0000
+
+The roots of the Rosenbrock valley function f(x,y) = (1-x)**2 + 100(y-x**2)**2 are:
+    1.0000
+    1.0000
+
+And the value of the function at the roots are:
+   -1.0000
+    2.0000
+
+Number of steps: 667
+Number of calls: 5932
