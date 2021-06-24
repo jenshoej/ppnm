@@ -16,7 +16,7 @@ plot.gnuplot.png: out.txt
 	set tics out;\
 	set xlabel "x";\
 	set ylabel "y";\
-	set title "Quadratic spline interpolation";\
+	set title "Cubic spline interpolation";\
 	plot \
 	"out.txt" using 1:2 with line title "Cubic spline"\
 	,"out.txt" using 1:3 with line title "Integration of cubic spline"\
