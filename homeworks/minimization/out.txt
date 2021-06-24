@@ -1,0 +1,11 @@
+--- Rosenbrock's function ---
+We have a minimum at:
+x0 = 0.99999
+x1 = 0.999979
+Number of steps to find the minimum: 56
+
+--- Himmelblaus function ---
+We have a minimum at:
+x0 = -3.77931
+x1 = -3.28318
+Number of steps to find the minimum: 9

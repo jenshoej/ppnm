@@ -1,0 +1,12 @@
+Real part of sqrt(-2): 0.000000
+imaginary part of sqrt(-2): 1.414214
+Real part of e^i: 0.540302
+imaginary part of e^i: 0.841471
+1.000000
+sin(pi/6) = 0.500000
+sin(pi/3) = 0.866025
+Value of the gammafunction of 5 = 24
+Value of the bessel function of 0.5 = 0.93847
+Float 0.1111111119389533996582031
+Float 0.1111111111111111049432054
+Double 0.1111111111111111111096053
