@@ -16,15 +16,14 @@ plot.gnuplot.png: out.txt
 	set tics out;\
 	set xlabel "x";\
 	set ylabel "y";\
-	set title "Linear spline interpolation";\
+	set title "Quadratic spline interpolation";\
 	plot \
-	"out.txt" using 1:2 with line title "Implemented linear spline"\
-	,"out.txt" using 1:3 with line title "Implemented integration"\
-	,"out.txt" using 1:4 with line title "GSL linear spline"\
-	,"out.txt" using 1:5 with line title "GSL integration"\
+	"out.txt" using 1:2 with line title "Quadratic spline"\
+	,"out.txt" using 1:3 with line title "Integration of quadratic spline"\
+	,"out.txt" using 1:4 with line title "Derivative of quadratic spline"\
 	' | gnuplot
 
-main: main.o linear_spline.c
+main: main.o quad_spline.o
 
 clean: 
 	$(RM) *.o main *.txt *.png
