@@ -62,7 +62,12 @@ cspline* cspline_alloc(int n, double *x, double *y){
 }
 
 void cspline_free(cspline *s){
-	free(s->x);free(s->y);free(s->b);free(s->c);free(s->d);free(s);
+	free(s->x);
+	free(s->y);
+	free(s->b);
+	free(s->c);
+	free(s->d);
+	free(s);
 }
 
 double cspline_eval(cspline *s, double z){
