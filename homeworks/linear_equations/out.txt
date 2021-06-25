@@ -77,3 +77,27 @@ A*B is (should be identity
    -0.0000   -0.0000   -0.0000    0.0000    1.0000   -0.0000
     0.0000    0.0000    0.0000    0.0000   -0.0000    1.0000
 
+
+PART C - TIME ELAPSED
+
+Decomposition nr.: 1
+ My QR routine:      2e-06 seconds
+ GSL routine  :    7.6e-05 seconds
+Decomposition nr.: 2
+ My QR routine:      1e-06 seconds
+ GSL routine  :      1e-06 seconds
+Decomposition nr.: 3
+ My QR routine:      9e-06 seconds
+ GSL routine  :          0 seconds
+Decomposition nr.: 4
+ My QR routine:      1e-06 seconds
+ GSL routine  :      1e-06 seconds
+Decomposition nr.: 5
+ My QR routine:      2e-06 seconds
+ GSL routine  :      1e-06 seconds
+Decomposition nr.: 6
+ My QR routine:      2e-06 seconds
+ GSL routine  :      1e-06 seconds
+Decomposition nr.: 7
+ My QR routine:      2e-06 seconds
+ GSL routine  :      2e-06 seconds

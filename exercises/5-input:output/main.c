@@ -8,9 +8,7 @@ void printline(double x){
         printf("| %g\t| %g\t| %g\t|\n", x, cos(x), sin(x));
 }
 void printheading(){
-    printf("-------------------------------------\n");
     printf("| x\t| cos(x)\t| sin(x)\t|\n");
-    printf("-------------------------------------\n");
 }
 
 void readcmd(int argc, char **argv){
@@ -20,7 +18,6 @@ void readcmd(int argc, char **argv){
         double x = atof(argv[i]);
         printline(x);
     }
-    printf("-------------------------------------\n");
 }
 void readstdio(){
     printf("\nREADING WITH STDIN - WRITING TO STDOUT\n");

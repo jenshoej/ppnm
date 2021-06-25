@@ -26,6 +26,7 @@ void rosenbrock(gsl_vector* x, gsl_vector* fx) {
 }
 
 
+
 int main() {
 
     /* -------- Task A ---------- */
@@ -48,14 +49,14 @@ int main() {
     printf("Initial guess:\n");
     print_vector(x);
 
-    int pis = newton(rosenbrock, x, acc);
+    int p = newton(rosenbrock, x, acc);
 
     f(x, fx);
     printf("The roots of the Rosenbrock valley function f(x,y) = (1-x)**2 + 100(y-x**2)**2 are:\n");
     print_vector(x);
     printf("And the value of the function at the roots are:\n");
     print_vector(fx);
-    printf("Number of steps: %i\n", pis);
+    printf("Number of steps: %i\n", p);
     printf("Number of calls: %i\n", calls);
     return 0;
 }

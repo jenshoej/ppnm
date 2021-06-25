@@ -6,7 +6,7 @@ LDLIBS += $(shell gsl-config --libs)
 out.txt: main
 	./$< > $@
 
-main: main.o newton.o matrix.o
+main: main.o newton.o matrix.o integrator.o
 
 clean: 
 	$(RM) *.o *.txt main

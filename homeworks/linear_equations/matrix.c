@@ -5,6 +5,7 @@
 #include <math.h>
 #include <gsl/gsl_blas.h>
 #include <assert.h>
+#include <time.h>
 
 void print_vector(gsl_vector* v) {
 	for(int i = 0; i < v->size; i++) {
@@ -94,4 +95,5 @@ void inverse(gsl_matrix* Q, gsl_matrix* R, gsl_matrix* B) {
 	}
 	gsl_vector_free(e);
 	gsl_vector_free(x);
+
 }
