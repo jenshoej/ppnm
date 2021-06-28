@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
-typedef struct {int n; double *x,*y,*b,*c,*d;} cspline;
+typedef struct {int n; double *x, *y, *b, *c, *d;} cspline;
+
 
 cspline* cspline_alloc(int n, double *x, double *y){
 	cspline *s = (cspline*)malloc(sizeof(cspline));
@@ -14,50 +15,52 @@ cspline* cspline_alloc(int n, double *x, double *y){
 	s->y = (double*)malloc(n*sizeof(double));
 	s->n = n;
 	// Fill data into spline
-	for(int i=0;i<n;i++){
-		s->x[i] = x[i];s->y[i] = y[i];
+	for(int i = 0; i < n; i++) {
+		s->x[i] = x[i];
+		s->y[i] = y[i];
 	}
 
     // Calculate the coefficients of the cubic spline b, c and d
-	double p[n-1],h[n-1];
-	for(int i=0;i<n-1;i++){
-		h[i]=x[i+1]-x[i]; //delta x
-		assert(h[i]>0);
-		p[i]=(y[i+1]-y[i])/h[i]; //p = delta y / delta x
+	double p[n-1];
+	double h[n-1];
+	for(int i = 0; i < n-1; i++) {
+		h[i] = x[i+1] - x[i]; //delta x
+		assert(h[i] > 0);
+		p[i] = (y[i+1] - y[i])/h[i]; //p = delta y / delta x
 	}
 
     // Solve the matrices for the other coefficients by gauss elimination and backsubstitution
 	double D[n], Q[n-1], B[n];
 	D[0] = 2;
-	for(int i=0;i<n-2;i++){
-		D[i+1]=2*h[i]/h[i+1]+2;
+	for(int i = 0; i < n-2; i++) {
+		D[i+1] = 2*h[i]/h[i+1]+2;
 	}
-	D[n-1]=2;
-	Q[0]=1;
-	for(int i=0;i<n-2;i++){
-		Q[i+1]=h[i]/h[i+1];
+	D[n-1] = 2;
+	Q[0] = 1;
+	for(int i = 0; i < n-2; i++) {
+		Q[i+1] = h[i]/h[i+1];
 	}
-	for(int i=0;i<n-2;i++){
-		B[i+1]=3*(p[i]+p[i+1]*h[i]/h[i+1]);
+	for(int i = 0; i < n-2; i++) {
+		B[i+1] = 3*(p[i] + p[i+1]*h[i]/h[i+1]);
 	}
-	B[0]=3*p[0]; B[n-1]=3*p[n-2];
+	B[0] = 3*p[0]; 
+	B[n-1] = 3*p[n-2];
 
 	//Gauss elimination
-	for(int i=1;i<n;i++){
-		D[i]-=Q[i-1]/D[i-1];
-		B[i]-=B[i-1]/D[i-1];
+	for(int i = 1; i<n; i++) {
+		D[i] -= Q[i-1]/D[i-1];
+		B[i] -= B[i-1]/D[i-1];
 	}
 
 	s->b[n-1] = B[n-1]/D[n-1];
-	for(int i=n-2;i>=0;i--){
-		s->b[i]=(B[i]-Q[i]*s->b[i+1])/D[i];
+	for(int i = n-2; i >=0 ; i--) {
+		s->b[i] = (B[i] - Q[i]*s->b[i+1])/D[i];
 	}
 	// Calculate c_i and d_i:
-	for(int i=0;i<n-1;i++){
-		s->c[i] = (-2*s->b[i]-s->b[i+1]+3*p[i])/h[i];
-		s->d[i] = (s->b[i]+s->b[i+1]-2*p[i])/h[i]/h[i];
+	for(int i = 0; i < n-1; i++) {
+		s->c[i] = (-2*s->b[i] - s->b[i+1] + 3*p[i])/h[i];
+		s->d[i] = (s->b[i] + s->b[i+1] - 2*p[i])/h[i]/h[i];
 	}
-
 	return s;
 }
 
@@ -71,28 +74,28 @@ void cspline_free(cspline *s){
 }
 
 double cspline_eval(cspline *s, double z){
-	assert(z>=s->x[0] && z<=s->x[s->n-1]);
+	assert(z >= s->x[0] && z <= s->x[s->n-1]);
 	// Binary search
 	int i = 0;
     int j = s->n-1;
 	while(j - i > 1) {
-		int m = (i + j)/2;
-		if(z>s->x[m]) i=m;
-		else j = m;
+		int mid = (i + j)/2;
+		if(z>s->x[mid]) i = mid;
+		else j = mid;
 	}
-	double h=z-s->x[i];
+	double h = z-s->x[i];
 	return s->y[i] + h*s->b[i] + h*h*s->c[i] + h*h*h*s->d[i];
 }
 
 double cspline_integ(cspline* s, double z) {
-	assert(z>= s->x[0] && z<= s->x[s->n -1]);
+	assert(z >= s->x[0] && z <= s->x[s->n -1]);
 	// Binary search
 	int i = 0;
     int j = s->n-1;
 	while(j - i > 1) {
-		int m = (i + j)/2;
-		if(z>s->x[m]) i=m;
-		else j = m;
+		int mid = (i + j)/2;
+		if(z > s->x[mid]) i = mid;
+		else j = mid;
 	}
 	double integral = 0;
 	for(j = 0; j < i; j++) {
@@ -105,14 +108,14 @@ double cspline_integ(cspline* s, double z) {
 
 
 double cspline_deriv(cspline* s, double z) {
-	assert(z>= s->x[0] && z<= s->x[s->n -1]);
+	assert(z >= s->x[0] && z <= s->x[s->n -1]);
 		// Binary search
 	int i = 0;
     int j = s->n-1;
 	while(j - i > 1) {
-		int m = (i + j)/2;
-		if(z>s->x[m]) i=m;
-		else j = m;
+		int mid = (i + j)/2;
+		if(z>s->x[mid]) i = mid;
+		else j = mid;
 	}
 	double h = z - s->x[i];
 	return s->b[i] + 2.0*h*s->c[i] + 3.0*h*h*s->d[i];

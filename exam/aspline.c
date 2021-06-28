@@ -50,7 +50,7 @@ aspline* aspline_alloc(int n, double *x, double *y) {
         }
     }
     // Calculate the c's and d's from (32)
-    for(int i=0; i<n-1; ++i) {
+    for(int i = 0; i < n-1; i++) {
 		s->c[i] = (3*p[i] - 2*s->b[i] - s->b[i+1])/Dx[i];
         s->d[i] = (s->b[i] + s->b[i+1] - 2*p[i])/(Dx[i]*Dx[i]);
 	}
